@@ -6,18 +6,18 @@
 namespace fingerprint {
 namespace internal {
 
-template <class T = double>
-class UniformFloatDistribution {
+template <class T = std::size_t>
+class UniformIntDistribution {
  public:
   using ValueType = T;
   using Engine = std::default_random_engine;
-  using Distribution = std::uniform_real_distribution<ValueType>;
+  using Distribution = std::uniform_int_distribution<ValueType>;
 
-  static_assert(std::is_floating_point<ValueType>::value);
+  static_assert(std::is_integral<ValueType>::value);
 
  public:
-  // [min, max)
-  UniformFloatDistribution(ValueType min, ValueType max)
+  // [min, max]
+  UniformIntDistribution(ValueType min, ValueType max)
       : gen_{Seed()}, distribution_{min, max} {}
 
   ValueType operator()() { return distribution_(gen_); }
@@ -40,19 +40,6 @@ class UniformFloatDistribution {
   Engine gen_;
   Distribution distribution_;
 };
-
-template <class It, class Value>
-void FillRandomFloatArray(It first, It last, Value min, Value max) {
-  UniformFloatDistribution<Value> ufd{min, max};
-  ufd(first, last);
-}
-
-template <class It, class Size, class Value>
-void FillRandomFloatArrayN(It first, Size n, Value min, Value max) {
-  auto last = first;
-  std::advance(first, n);
-  FillRandomFloatArray(first, last, min, max);
-}
 
 } // namespace internal
 }  // namespace fingerprint

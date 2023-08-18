@@ -12,7 +12,7 @@
 - [ ] 字体
 - [ ] Canvas 图像噪音
 - [x] WebGL 图像噪音
-- [ ] WebGL 元数据掩蔽 
+- [x] WebGL 元数据掩蔽 
 - [ ] AudioContext
 - [ ] 媒体设备
 - [ ] ClientRects
@@ -52,5 +52,43 @@ void WebGLRenderingContextBase::BufferDataImpl(GLenum target,
   }
 
   ContextGL()->BufferData(target, static_cast<GLsizeiptr>(size), data, usage);
+}
+```
+
+## WebGL 元数据掩蔽
+
+```cpp
+ScriptValue WebGLRenderingContextBase::getParameter(ScriptState* script_state,
+                                                    GLenum pname) {
+    // ...
+    case WebGLDebugRendererInfo::kUnmaskedRendererWebgl:
+      if (ExtensionEnabled(kWebGLDebugRendererInfoName)) {
+        // 在实际应用中应考虑基于 vendor 来处理 renderer。
+        fingerprint::GLrendererPool rendererp;
+        const std::string vendor = rendererp.NewVendor();
+        const std::string renderer = rendererp.NewRenderer(vendor);
+        if (IdentifiabilityStudySettings::Get()->ShouldSampleType(
+                blink::IdentifiableSurface::Type::kWebGLParameter)) {
+          RecordIdentifiableGLParameterDigest(
+              pname, IdentifiabilityBenignStringToken(
+                         String(/*ContextGL()->GetString(GL_RENDERER)*/renderer)));
+        }
+        return WebGLAny(script_state,
+                        String(/*ContextGL()->GetString(GL_RENDERER)*/renderer));
+      }
+      // ...
+    case WebGLDebugRendererInfo::kUnmaskedVendorWebgl:
+      if (ExtensionEnabled(kWebGLDebugRendererInfoName)) {
+        const std::string vendor = fingerprint::GLrendererPool{}.NewVendor();
+        if (IdentifiabilityStudySettings::Get()->ShouldSampleType(
+                blink::IdentifiableSurface::Type::kWebGLParameter)) {
+          RecordIdentifiableGLParameterDigest(
+              pname, IdentifiabilityBenignStringToken(
+                         String(/*ContextGL()->GetString(GL_VENDOR)*/vendor)));
+        }
+        return WebGLAny(script_state,
+                        String(/*ContextGL()->GetString(GL_VENDOR)*/vendor));
+      }
+    // ...
 }
 ```
