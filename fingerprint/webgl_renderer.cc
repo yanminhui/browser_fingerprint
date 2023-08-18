@@ -24,14 +24,17 @@ void GLrendererPool::Append(const std::string& vendor,
 
 std::string GLrendererPool::NewVendor() const noexcept {
   const std::string empty_keyword;
-  return NewVendor(empty_keyword);
+  constexpr bool excluded = true;
+  return NewVendor(empty_keyword, excluded);
 }
 
-std::string GLrendererPool::NewVendor(
-    const std::string& keyword) const noexcept {
+std::string GLrendererPool::NewVendor(const std::string& keyword,
+                                      bool excluded) const noexcept {
   std::vector<std::string> vendors;
   for (const auto& [k, v] : vendor_2_renderers_) {
-    if (keyword.empty() || internal::StrContainsIgnoreCase(k, keyword)) {
+    if (keyword.empty() ||
+        (excluded ? !internal::StrContainsIgnoreCase(k, keyword)
+                  : internal::StrContainsIgnoreCase(k, keyword))) {
       vendors.push_back(k);
     }
   }
