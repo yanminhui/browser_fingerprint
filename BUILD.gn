@@ -1,0 +1,34 @@
+# for Chromium
+#
+# referenced by:
+# - //third_party/blink/renderer/core:core (public_deps)
+#
+
+config("config") {
+  include_dirs = [ "." ]
+}
+
+component("fingerprint") {
+  output_name = "browser_fingerprint"
+
+  public_configs = [ ":config" ]  
+  if (is_component_build) {
+    if (is_win) {
+      defines = [ "FINGERPRINT_BUILD_DLL" ]
+    } else {
+      configs -= [ "//build/config/gcc:symbol_visibility_hidden" ]
+      configs += [ "//build/config/gcc:symbol_visibility_default" ]
+    }
+  }
+
+  sources = [
+    "fingerprint/internal/apply_float_noise.h",
+    "fingerprint/internal/uniform_float_distribution.h",
+    "fingerprint/internal/uniform_int_distribution.h",
+    "fingerprint/internal/utility.cc",
+    "fingerprint/internal/utility.h",
+    "fingerprint/webgl_noise.h",
+    "fingerprint/webgl_renderer.cc",
+    "fingerprint/webgl_renderer.h",
+  ]
+}
