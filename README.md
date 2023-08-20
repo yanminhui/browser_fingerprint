@@ -1,6 +1,6 @@
 # 浏览器指纹
 
-随机 [Chromium](https://github.com/yanminhui/chromium) 浏览器指纹。
+随机 [Chromium](https://github.com/yanminhui/chromium/tree/dev) 浏览器指纹。
 
 - [ ] Cookie
 - [ ] User-Agent

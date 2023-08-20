@@ -23,9 +23,13 @@ void GLrendererPool::Append(const std::string& vendor,
 }
 
 std::string GLrendererPool::NewVendor() const noexcept {
-  const std::string empty_keyword;
+  const std::string keyword{"Apple"};
+#if defined(__APPLE__)
+  constexpr bool excluded = false;
+#else
   constexpr bool excluded = true;
-  return NewVendor(empty_keyword, excluded);
+#endif
+  return NewVendor(keyword, excluded);
 }
 
 std::string GLrendererPool::NewVendor(const std::string& keyword,
