@@ -14,12 +14,14 @@ component("fingerprint") {
   public_configs = [ ":config" ]  
   if (is_component_build) {
     if (is_win) {
-      defines = [ "FINGERPRINT_BUILD_DLL" ]
+      defines += [ "FINGERPRINT_BUILD_DLL" ]
     } else {
       configs -= [ "//build/config/gcc:symbol_visibility_hidden" ]
       configs += [ "//build/config/gcc:symbol_visibility_default" ]
     }
   }
+  configs -= [ "//build/config/compiler:no_exceptions" ]
+  configs += [ "//build/config/compiler:exceptions" ]
 
   sources = [
     "fingerprint/internal/apply_float_noise.h",
@@ -27,6 +29,8 @@ component("fingerprint") {
     "fingerprint/internal/uniform_int_distribution.h",
     "fingerprint/internal/utility.cc",
     "fingerprint/internal/utility.h",
+    "fingerprint/settings.cc",
+    "fingerprint/settings.h",
     "fingerprint/webgl_noise.h",
     "fingerprint/webgl_renderer.cc",
     "fingerprint/webgl_renderer.h",

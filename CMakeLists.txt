@@ -7,6 +7,8 @@ set(sources
   "fingerprint/internal/uniform_int_distribution.h"
   "fingerprint/internal/utility.cc"
   "fingerprint/internal/utility.h"
+  "fingerprint/settings.cc"
+  "fingerprint/settings.h"
   "fingerprint/webgl_noise.h"
   "fingerprint/webgl_renderer.cc" 
   "fingerprint/webgl_renderer.h"
