@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+#include <functional>
 #include <string>
 #include <unordered_map>
 
@@ -9,6 +11,8 @@ namespace fingerprint {
 
 class Settings {
   static constexpr auto kSeparator = ";";
+
+  friend std::string SaveSettingsToText(const Settings& settings);
 
  public:
   void Put(const std::string& key, const std::string& value);
@@ -50,7 +54,14 @@ void Settings::Get(const std::string& key, Container& value) const {
   }
 }
 
-void LoadSettingsFromJson(const std::string& name, Settings& settings);
-void LoadSettingsFromLevelDB(const std::string& name, Settings& settings);
+Settings LoadSettingsFromText(const std::string& text);
+std::string SaveSettingsToText(const Settings& settings);
+
+Settings LoadSettingsFromFile(
+    const std::filesystem::path& path,
+    std::function<std::string(const std::string&)> decode);
+void SaveSettingsToFile(const std::filesystem::path& path,
+                        const Settings& settings,
+                        std::function<std::string(const std::string&)> encode);
 
 }  // namespace fingerprint

@@ -49,6 +49,24 @@ bool EqualsIgnoreCase(std::string_view piece1,
   return true;
 }
 
+std::string_view StrStrip(std::string_view s) noexcept {
+  auto first = s.cbegin();
+  for (auto it = s.cbegin(); it != s.cend(); ++it) {
+    if (!std::isspace(*it)) {
+      first = it;
+      break;
+    }
+  }
+  auto last = s.cend();
+  for (auto it = s.crbegin(); it != s.crend(); ++it) {
+    if (!std::isspace(*it)) {
+      last = it.base();
+      break;
+    }
+  }
+  return {first, last};
+}
+
 std::string ToString(bool value) { return value ? kTrue : kFalse; }
 
 std::string ToString(const std::string& value) { return value; }

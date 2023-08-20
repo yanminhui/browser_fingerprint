@@ -14,6 +14,8 @@ bool StrContainsIgnoreCase(std::string_view haystack,
 bool EqualsIgnoreCase(std::string_view piece1,
                       std::string_view piece2) noexcept;
 
+std::string_view StrStrip(std::string_view s) noexcept;
+
 template <class T>
 std::string ToString(T value) {
   return std::to_string(value);
