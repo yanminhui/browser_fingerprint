@@ -24,13 +24,22 @@ component("fingerprint") {
   configs += [ "//build/config/compiler:exceptions" ]
 
   sources = [
+    "fingerprint/fingerprint_context.cc",
+    "fingerprint/fingerprint_context.h",
     "fingerprint/internal/apply_float_noise.h",
     "fingerprint/internal/uniform_float_distribution.h",
     "fingerprint/internal/uniform_int_distribution.h",
     "fingerprint/internal/utility.cc",
     "fingerprint/internal/utility.h",
+    "fingerprint/services/context.cc",
+    "fingerprint/services/context.h",
+    "fingerprint/services/path_service.cc",
+    "fingerprint/services/path_service.h",
+    "fingerprint/services/settings_service.cc",
+    "fingerprint/services/settings_service.h",
     "fingerprint/settings.cc",
     "fingerprint/settings.h",
+    "fingerprint/settings_keys.h"
     "fingerprint/webgl_noise.h",
     "fingerprint/webgl_renderer.cc",
     "fingerprint/webgl_renderer.h",

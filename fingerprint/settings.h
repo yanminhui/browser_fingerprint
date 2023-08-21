@@ -25,6 +25,8 @@ class Settings {
     Put(key, internal::JoinRange(first, last, kSeparator));
   }
 
+  bool HasKey(const std::string& key) const noexcept;
+
   std::string GetString(const std::string& key) const;
   std::size_t GetUInt(const std::string& key) const;
   double GetDouble(const std::string& key) const;

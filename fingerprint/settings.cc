@@ -31,6 +31,11 @@ void Settings::Put(const std::string& key, bool value) {
   PutInternal(key, internal::ToString(value));
 }
 
+bool Settings::HasKey(const std::string& key) const noexcept {
+  auto it = storage_.find(key);
+  return it != storage_.cend();
+}
+
 std::string Settings::GetString(const std::string& key) const {
   return GetInternal(key);
 }
