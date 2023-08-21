@@ -5,6 +5,7 @@
 #include "fingerprint/services/path_service.h"
 #include "fingerprint/settings.h"
 #include "fingerprint/settings_keys.h"
+#include "fingerprint/services/use_service.h"
 #include "fingerprint/webgl_noise.h"
 #include "fingerprint/webgl_renderer.h"
 

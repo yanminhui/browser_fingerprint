@@ -1,5 +1,7 @@
 #include "fingerprint/services/settings_service.h"
 
+#include "fingerprint/services/use_service.h"
+
 namespace fingerprint {
 
 SettingsService::SettingsService(internal::Context& ctx)
@@ -13,6 +15,8 @@ SettingsService::SettingsService(internal::Context& ctx)
   }
 }
 
-const Settings& SettingsService::GetSettings() const { return settings_; }
+const Settings& SettingsService::GetSettings() const {
+  return settings_;
+}
 
 }  // namespace fingerprint

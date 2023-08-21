@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "fingerprint/services/settings_service.h"
+#include "fingerprint/services/use_service.h"
 
 namespace {
 
@@ -18,15 +19,26 @@ FPcontext* FPcontext::GetInstance() {
   return s_fp_context;
 }
 
-FPcontext::FPcontext() { s_fp_context = this; }
+FPcontext::FPcontext() {
+  s_fp_context = this;
+}
 
-FPcontext::~FPcontext() { s_fp_context = nullptr; }
+FPcontext::~FPcontext() {
+  s_fp_context = nullptr;
+}
+
+void FPcontext::RegisterPathProvider(PathService::PathKey key,
+                                     PathService::ProviderFunc func) {
+  return internal::UseService<PathService>(*this).RegisterProvider(key, func);
+}
 
 const Settings& FPcontext::GetSettings() const {
   return internal::UseService<SettingsService>(const_cast<FPcontext&>(*this))
       .GetSettings();
 }
 
-FPcontext* FPcontextPtr() { return FPcontext::GetInstance(); }
+FPcontext* FPcontextPtr() {
+  return FPcontext::GetInstance();
+}
 
 }  // namespace fingerprint

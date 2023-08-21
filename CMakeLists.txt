@@ -15,6 +15,7 @@ set(sources
   "fingerprint/services/path_service.h"
   "fingerprint/services/settings_service.cc"
   "fingerprint/services/settings_service.h"
+  "fingerprint/services/use_service.h"
   "fingerprint/settings.cc"
   "fingerprint/settings.h"
   "fingerprint/settings_keys.h"

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fingerprint/services/context.h"
+#include "fingerprint/services/path_service.h"
 
 namespace fingerprint {
 
@@ -15,6 +16,9 @@ class FPcontext : public internal::Context {
  public:
   FPcontext();
   ~FPcontext() override;
+
+  void RegisterPathProvider(PathService::PathKey key,
+                            PathService::ProviderFunc func);
 
   const Settings& GetSettings() const;
 };

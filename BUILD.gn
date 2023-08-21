@@ -20,8 +20,14 @@ component("fingerprint") {
       configs += [ "//build/config/gcc:symbol_visibility_default" ]
     }
   }
-  configs -= [ "//build/config/compiler:no_exceptions" ]
-  configs += [ "//build/config/compiler:exceptions" ]
+  configs -= [ 
+    "//build/config/compiler:no_exceptions",
+    "//build/config/compiler:no_rtti",
+  ]
+  configs += [
+    "//build/config/compiler:exceptions",
+    "//build/config/compiler:rtti",
+  ]
 
   sources = [
     "fingerprint/fingerprint_context.cc",
@@ -37,9 +43,10 @@ component("fingerprint") {
     "fingerprint/services/path_service.h",
     "fingerprint/services/settings_service.cc",
     "fingerprint/services/settings_service.h",
+    "fingerprint/services/use_service.h",
     "fingerprint/settings.cc",
     "fingerprint/settings.h",
-    "fingerprint/settings_keys.h"
+    "fingerprint/settings_keys.h",
     "fingerprint/webgl_noise.h",
     "fingerprint/webgl_renderer.cc",
     "fingerprint/webgl_renderer.h",
