@@ -2,6 +2,7 @@
 
 #include "fingerprint/services/context.h"
 #include "fingerprint/services/path_service.h"
+#include "fingerprint/services/settings_service.h"
 
 namespace fingerprint {
 
@@ -20,7 +21,13 @@ class FPcontext : public internal::Context {
   void RegisterPathProvider(PathService::PathKey key,
                             PathService::ProviderFunc func);
 
-  const Settings& GetSettings() const;
+  // called by render: get settings ciphertext from browser.
+  void RegisterSettingsProvider(SettingsService::ProviderFunc func);
+
+  // called by browser: send ciphertext to render.
+  std::string GetSettingsCipherData();
+
+  const Settings& GetSettings();
 };
 
 FPcontext* FPcontextPtr();

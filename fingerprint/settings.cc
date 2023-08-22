@@ -110,24 +110,24 @@ Settings LoadSettingsFromFile(
   auto size = in.tellg();
   in.seekg(0);
 
-  std::string encrypttext(size, '\0');
-  if (!in.read(&encrypttext[0], size)) {
+  std::string chiphertext(size, '\0');
+  if (!in.read(&chiphertext[0], size)) {
     auto ec = std::make_error_code(std::errc::io_error);
     throw std::system_error{ec, "read \"" + path.string() + "\" error"};
   }
-  return LoadSettingsFromText(decode(encrypttext));
+  return LoadSettingsFromText(decode(chiphertext));
 }
 
 void SaveSettingsToFile(const std::filesystem::path& path,
                         const Settings& settings,
                         std::function<std::string(const std::string&)> encode) {
-  auto encrypttext = encode(SaveSettingsToText(settings));
+  auto chiphertext = encode(SaveSettingsToText(settings));
   std::ofstream out(path, std::ofstream::out);
   if (!out) {
     auto ec = std::make_error_code(std::errc::io_error);
     throw std::system_error{ec, "open \"" + path.string() + "\" failed"};
   }
-  if (!out.write(encrypttext.data(), encrypttext.size())) {
+  if (!out.write(chiphertext.data(), chiphertext.size())) {
     auto ec = std::make_error_code(std::errc::io_error);
     throw std::system_error{ec, "write \"" + path.string() + "\" error"};
   }
