@@ -1,6 +1,6 @@
 # 浏览器指纹
 
-随机 [Chromium](https://github.com/yanminhui/chromium/tree/dev) 浏览器指纹。
+随机 Chromium 浏览器指纹。
 
 - [ ] Cookie
 - [ ] User-Agent
@@ -26,6 +26,8 @@
 - [ ] 端口扫描保护
 - [ ] 硬件加速
 
+**Chromium 开发分支**：https://github.com/yanminhui/chromium/tree/dev
+
 ## Canves 图像噪音
 
 - 坐标偏移
@@ -45,18 +47,22 @@ void WebGLRenderingContextBase::BufferDataImpl(GLenum target,
   // ...
   buffer->SetSize(size);
 
-  if (data && 0 < size && size % sizeof(GLfloat) == 0) {
-    // 生成一个随机噪音序列，而不是一个随机数避免不够随机。
-    WTF::Vector<GLfloat> noises;
-    fingerprint::GLnewNoiseFloatArray(noises);
+  using namespace fingerprint;
+  if (data && 0 < size && size % sizeof(GLfloat) == 0 &&
+      FPcontextPtr()->GetSettings().HasKey(gkWebGLImageNoises)) {
+    // 使用噪音序列，而不是单个噪音避免碰撞。
+    using FloatArray = WTF::Vector<GLfloat>;
+    static base::NoDestructor<FloatArray> pnoises{[]() {
+      FloatArray fa;
+      FPcontextPtr()->GetSettings().Get(gkWebGLImageNoises, fa);
+      return fa;
+    }()}; // 缓存数据，避免重复解析噪音序列。
 
-    // 构建一个缓存对象的副本，并应用噪音序列。
     auto len = size / sizeof(GLfloat);
     GLfloat out[len];
-    fingerprint::GLapplyNoise(out, data, len, noises);
-
+    GLapplyNoise(out, data, len, *pnoises);
     ContextGL()->BufferData(target, static_cast<GLsizeiptr>(size), out, usage);
-    return ;
+    return;
   }
 
   ContextGL()->BufferData(target, static_cast<GLsizeiptr>(size), data, usage);
@@ -68,35 +74,47 @@ void WebGLRenderingContextBase::BufferDataImpl(GLenum target,
 ```cpp
 ScriptValue WebGLRenderingContextBase::getParameter(ScriptState* script_state,
                                                     GLenum pname) {
-    // ...
+  // ...
     case WebGLDebugRendererInfo::kUnmaskedRendererWebgl:
       if (ExtensionEnabled(kWebGLDebugRendererInfoName)) {
-        // 在实际应用中应考虑基于 vendor 来处理 renderer。
-        fingerprint::GLrendererPool rendererp;
-        const std::string vendor = rendererp.NewVendor();
-        const std::string renderer = rendererp.NewRenderer(vendor);
+        using namespace fingerprint;
+        auto renderer = String(ContextGL()->GetString(GL_RENDERER));
+        // 当解析不到定制的配置时，使用实际值。
+        if (FPcontextPtr()->GetSettings().HasKey(gkWebGLRenderer)) {
+          renderer =
+              String(FPcontextPtr()->GetSettings().GetString(gkWebGLRenderer));
+        }
         if (IdentifiabilityStudySettings::Get()->ShouldSampleType(
                 blink::IdentifiableSurface::Type::kWebGLParameter)) {
           RecordIdentifiableGLParameterDigest(
-              pname, IdentifiabilityBenignStringToken(
-                         String(/*ContextGL()->GetString(GL_RENDERER)*/renderer)));
+              pname, IdentifiabilityBenignStringToken(renderer));
         }
-        return WebGLAny(script_state,
-                        String(/*ContextGL()->GetString(GL_RENDERER)*/renderer));
+        return WebGLAny(script_state, renderer);
       }
-      // ...
+      SynthesizeGLError(
+          GL_INVALID_ENUM, "getParameter",
+          "invalid parameter name, WEBGL_debug_renderer_info not enabled");
+      return ScriptValue::CreateNull(script_state->GetIsolate());
     case WebGLDebugRendererInfo::kUnmaskedVendorWebgl:
       if (ExtensionEnabled(kWebGLDebugRendererInfoName)) {
-        const std::string vendor = fingerprint::GLrendererPool{}.NewVendor();
+        using namespace fingerprint;
+        auto vendor = String(ContextGL()->GetString(GL_VENDOR));
+        // 当解析不到定制的配置时，使用实际值。
+        if (FPcontextPtr()->GetSettings().HasKey(gkWebGLVendor)) {
+          vendor =
+              String(FPcontextPtr()->GetSettings().GetString(gkWebGLVendor));
+        }
         if (IdentifiabilityStudySettings::Get()->ShouldSampleType(
                 blink::IdentifiableSurface::Type::kWebGLParameter)) {
           RecordIdentifiableGLParameterDigest(
-              pname, IdentifiabilityBenignStringToken(
-                         String(/*ContextGL()->GetString(GL_VENDOR)*/vendor)));
+              pname, IdentifiabilityBenignStringToken(vendor));
         }
-        return WebGLAny(script_state,
-                        String(/*ContextGL()->GetString(GL_VENDOR)*/vendor));
+        return WebGLAny(script_state, vendor);
       }
-    // ...
+      SynthesizeGLError(
+          GL_INVALID_ENUM, "getParameter",
+          "invalid parameter name, WEBGL_debug_renderer_info not enabled");
+      return ScriptValue::CreateNull(script_state->GetIsolate());   
+  // ...
 }
 ```
