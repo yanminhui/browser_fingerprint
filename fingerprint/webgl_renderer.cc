@@ -3,7 +3,7 @@
 #include <iterator>
 
 #include "fingerprint/internal/uniform_int_distribution.h"
-#include "fingerprint/internal/utility.h"
+#include "fingerprint/internal/string_algorithm.h"
 
 namespace fingerprint {
 

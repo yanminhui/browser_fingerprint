@@ -4,7 +4,7 @@
 #include <string_view>
 #include <system_error>
 
-#include "fingerprint/internal/utility.h"
+#include "fingerprint/internal/string_algorithm.h"
 
 namespace {
 

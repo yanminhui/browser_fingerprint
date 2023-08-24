@@ -1,4 +1,4 @@
-#include "fingerprint/internal/utility.h"
+#include "fingerprint/internal/string_algorithm.h"
 
 #include <cctype>
 
