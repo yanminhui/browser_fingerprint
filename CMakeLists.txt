@@ -27,6 +27,7 @@ set(sources
   "fingerprint/webgl_noise.h"
   "fingerprint/webgl_renderer.cc" 
   "fingerprint/webgl_renderer.h"
+  "fingerprint/utility.cc"
   "fingerprint/utility.h"
 )
 

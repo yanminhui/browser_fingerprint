@@ -6,6 +6,7 @@
 #include "fingerprint/services/use_service.h"
 #include "fingerprint/settings.h"
 #include "fingerprint/settings_keys.h"
+#include "fingerprint/utility.h"
 #include "fingerprint/webgl_noise.h"
 #include "fingerprint/webgl_renderer.h"
 
@@ -29,12 +30,22 @@ Settings MakeSettings() {
 }
 
 int main() {
+  std::cout << "Random User Info\n================" << std::endl;
+  std::cout << "Name:  "
+            << NewRandomStr(gkUserNameLen, RandomChar::kUserNameRequired)
+            << std::endl;
+  std::cout << "Pass:  "
+            << NewRandomStr(gkPasswordLen, RandomChar::kPasswordRequired)
+            << std::endl;
+  std::cout << std::endl;
+
   FPcontext fp_context;
 
-  // global path information
+  std::cout << "Global Path Info\n================" << std::endl;
   auto& path_svc = UseService<PathService>(fp_context);
-  std::cout << "HOME_DIR: " << path_svc.GetHomeDir() << std::endl;
-  std::cout << "SETTINGS_PROFILE: " << path_svc.GetSettingsFile() << std::endl;
+  std::cout << "Home:    " << path_svc.GetHomeDir() << std::endl;
+  std::cout << "Profile: " << path_svc.GetSettingsFile() << std::endl;
+  std::cout << std::endl;
 
   // make settings
   auto st = MakeSettings();
