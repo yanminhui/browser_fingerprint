@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.0.0)
 project(browser_fingerprint VERSION 0.1.0 LANGUAGES C CXX)
 
 set(sources 
+  "fingerprint/crypt/bcrypt.cc"
+  "fingerprint/crypt/bcrypt.h"
+  "fingerprint/crypt/blowfish.cc"
+  "fingerprint/crypt/node_blf.h"
+  "fingerprint/crypt/openbsd.h"
   "fingerprint/fingerprint_context.cc"
   "fingerprint/fingerprint_context.h"
   "fingerprint/internal/apply_float_noise.h"
@@ -22,6 +27,7 @@ set(sources
   "fingerprint/webgl_noise.h"
   "fingerprint/webgl_renderer.cc" 
   "fingerprint/webgl_renderer.h"
+  "fingerprint/utility.h"
 )
 
 set(fingerprint ${PROJECT_NAME})

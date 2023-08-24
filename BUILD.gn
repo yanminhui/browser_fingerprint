@@ -30,6 +30,11 @@ component("fingerprint") {
   ]
 
   sources = [
+    "fingerprint/crypt/bcrypt.cc",
+    "fingerprint/crypt/bcrypt.h",
+    "fingerprint/crypt/blowfish.cc",
+    "fingerprint/crypt/node_blf.h",
+    "fingerprint/crypt/openbsd.h",
     "fingerprint/fingerprint_context.cc",
     "fingerprint/fingerprint_context.h",
     "fingerprint/internal/apply_float_noise.h",
@@ -50,5 +55,6 @@ component("fingerprint") {
     "fingerprint/webgl_noise.h",
     "fingerprint/webgl_renderer.cc",
     "fingerprint/webgl_renderer.h",
+    "fingerprint/utility.h",
   ]
 }
