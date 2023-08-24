@@ -3,6 +3,7 @@
 #include <string>
 
 #include "fingerprint/crypt/bcrypt.h"
+#include "fingerprint/crypt/twofishcpp.h"
 
 namespace fingerprint {
 
@@ -10,8 +11,11 @@ constexpr std::size_t gkUserNameLen = 6u;
 constexpr std::size_t gkGroupNameLen = 6u;
 constexpr std::size_t gkPasswordLen = 20u;
 
-using ::BcryptCheckPass;
-using ::BcryptNewHash;
+using fingerprint::BcryptCheckPass;
+using fingerprint::BcryptNewHash;
+
+using fingerprint::TwofishDecrypt;
+using fingerprint::TwofishEncrypt;
 
 namespace RandomChar {
 

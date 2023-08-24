@@ -24,6 +24,8 @@ class FPcontext : public internal::Context {
   // called by render: get settings ciphertext from browser.
   void RegisterSettingsProvider(SettingsService::ProviderFunc func);
 
+  SettingsService::CryptFunc GetSettingsEncodeFunc();
+
   // called by browser: send ciphertext to render.
   std::string GetSettingsCipherData();
 

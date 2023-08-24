@@ -1,17 +1,18 @@
 #include "fingerprint/services/settings_service.h"
 
 #include "fingerprint/services/use_service.h"
+#include "fingerprint/utility.h"
 
 namespace {
 
+constexpr std::string_view kPass = "WhrnQK-xfPqGr-yDHHGY";
+
 std::string Encode(const std::string& plaintext) {
-  // TODO:
-  return plaintext;
+  return fingerprint::TwofishEncrypt(plaintext, kPass);
 }
 
 std::string Decode(const std::string& ciphertext) {
-  // TODO:
-  return ciphertext;
+  return fingerprint::TwofishDecrypt(ciphertext, kPass);
 }
 
 }  // namespace
@@ -24,6 +25,14 @@ SettingsService::SettingsService(internal::Context& ctx)
 
 void SettingsService::RegisterProvider(ProviderFunc func) {
   provider_func_ = func;
+}
+
+SettingsService::CryptFunc SettingsService::EncodeFunc() const {
+  return Encode;
+}
+
+SettingsService::CryptFunc SettingsService::DecodeFunc() const {
+  return Decode;
 }
 
 const Settings& SettingsService::GetSettings() {

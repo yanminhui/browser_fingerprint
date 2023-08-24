@@ -31,6 +31,8 @@ void Settings::Put(const std::string& key, bool value) {
   PutInternal(key, internal::ToString(value));
 }
 
+bool Settings::IsEmpty() const noexcept { return storage_.empty(); }
+
 bool Settings::HasKey(const std::string& key) const noexcept {
   auto it = storage_.find(key);
   return it != storage_.cend();
@@ -102,7 +104,7 @@ std::string SaveSettingsToText(const Settings& settings) {
 Settings LoadSettingsFromFile(
     const std::filesystem::path& path,
     std::function<std::string(const std::string&)> decode) {
-  std::ifstream in(path, std::ifstream::ate);
+  std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
   if (!in) {
     auto ec = std::make_error_code(std::errc::io_error);
     throw std::system_error{ec, "open \"" + path.string() + "\" failed"};
@@ -125,12 +127,14 @@ void SaveSettingsToFile(const std::filesystem::path& path,
                         const Settings& settings,
                         std::function<std::string(const std::string&)> encode) {
   std::string ciphertext;
-  if (encode) {
-    ciphertext = encode(SaveSettingsToText(settings));
-  } else {
-    ciphertext = SaveSettingsToText(settings);
+  if (!settings.IsEmpty()) {
+    if (encode) {
+      ciphertext = encode(SaveSettingsToText(settings));
+    } else {
+      ciphertext = SaveSettingsToText(settings);
+    }
   }
-  std::ofstream out(path, std::ofstream::out);
+  std::ofstream out(path, std::ofstream::out | std::ofstream::binary);
   if (!out) {
     auto ec = std::make_error_code(std::errc::io_error);
     throw std::system_error{ec, "open \"" + path.string() + "\" failed"};

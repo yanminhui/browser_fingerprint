@@ -317,6 +317,8 @@ encode_base64(u_int8_t *buffer, u_int8_t *data, u_int16_t len)
 	*bp = '\0';
 }
 
+namespace fingerprint {
+
 std::string BcryptNewHash(std::string_view password, unsigned rounds) {
 	unsigned char seed[17]{};
 	arc4random_init();
@@ -337,3 +339,5 @@ bool BcryptCheckPass(std::string_view password, std::string_view hash) {
 	got.resize(60);
 	return hash == got;
 }
+
+} // namespace fingerprint

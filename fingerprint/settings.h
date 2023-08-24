@@ -25,6 +25,7 @@ class Settings {
     Put(key, internal::JoinRange(first, last, kSeparator));
   }
 
+  bool IsEmpty() const noexcept;
   bool HasKey(const std::string& key) const noexcept;
 
   std::string GetString(const std::string& key) const;

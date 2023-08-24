@@ -12,11 +12,15 @@ namespace fingerprint {
 class SettingsService : public internal::Context::Service {
  public:
   using ProviderFunc = std::function<std::string()>;
+  using CryptFunc = std::function<std::string(const std::string&)>;
 
  public:
   explicit SettingsService(internal::Context& ctx);
 
   void RegisterProvider(ProviderFunc func);
+
+  CryptFunc EncodeFunc() const;
+  CryptFunc DecodeFunc() const;
 
   const Settings& GetSettings();
 

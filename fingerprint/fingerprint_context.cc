@@ -32,6 +32,10 @@ void FPcontext::RegisterSettingsProvider(SettingsService::ProviderFunc func) {
   return internal::UseService<SettingsService>(*this).RegisterProvider(func);
 }
 
+SettingsService::CryptFunc FPcontext::GetSettingsEncodeFunc() {
+  return internal::UseService<SettingsService>(*this).EncodeFunc();
+}
+
 std::string FPcontext::GetSettingsCipherData() {
   return internal::UseService<SettingsService>(*this).GetCipherData();
 }

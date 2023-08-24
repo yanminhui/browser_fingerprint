@@ -51,7 +51,7 @@ int main() {
   auto st = MakeSettings();
 
   // save to disk
-  std::function<std::string(const std::string&)> encode;
-  SaveSettingsToFile(path_svc.GetSettingsFile(), st, encode);
+  SaveSettingsToFile(path_svc.GetSettingsFile(), st,
+                     fp_context.GetSettingsEncodeFunc());
   return 0;
 }

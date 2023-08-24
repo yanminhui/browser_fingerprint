@@ -4,6 +4,8 @@
 #include <string>
 #include <string_view>
 
+namespace fingerprint {
+
 constexpr unsigned gkBcryptRounds = 10u;
 
 // The bcrypt algorithm, where the value of rounds can be between 4 and 31 and
@@ -12,5 +14,7 @@ constexpr unsigned gkBcryptRounds = 10u;
 std::string BcryptNewHash(std::string_view password, unsigned rounds = gkBcryptRounds);
 
 bool BcryptCheckPass(std::string_view password, std::string_view hash);
+
+} // namespace fingerprint
 
 #endif  // BCRYPT_H
