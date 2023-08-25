@@ -35,38 +35,40 @@ SettingsService::CryptFunc SettingsService::DecodeFunc() const {
   return Decode;
 }
 
-const Settings& SettingsService::GetSettings() {
-  LoadSettingsIfNeeded();
+const Settings& SettingsService::GetSettings(bool* loaded) {
+  if (loaded) {
+    *loaded = LoadSettingsIfNeeded();
+  } else {
+    LoadSettingsIfNeeded();
+  }
   return settings_;
 }
 
-std::string SettingsService::GetCipherData() { return Encode(GetPlainData()); }
+std::string SettingsService::GetCipherData() {
+  return Encode(GetPlainData());
+}
 
 std::string SettingsService::GetPlainData() {
   return SaveSettingsToText(GetSettings());
 }
 
 bool SettingsService::LoadSettingsIfNeeded() {
-  if (loaded_) {
-    return loaded_;
-  }
-
-  // load from provider
-  if (provider_func_) {
-    auto ciphertext = provider_func_();
-    settings_ = LoadSettingsFromText(Decode(ciphertext));
-    loaded_ = true;
-    return true;
-  }
-
-  // load from disk
-  auto file = path_service_.GetSettingsFile();
-  if (fs::is_regular_file(file)) {
-    settings_ = LoadSettingsFromFile(file, Decode);
-    loaded_ = true;
-    return true;
-  }
-  return false;
+  static bool loaded = [this]() {
+    // load from provider
+    if (provider_func_) {
+      auto ciphertext = provider_func_();
+      settings_ = LoadSettingsFromText(Decode(ciphertext));
+      return true;
+    }
+    // load from disk
+    auto file = path_service_.GetSettingsFile();
+    if (fs::is_regular_file(file)) {
+      settings_ = LoadSettingsFromFile(file, Decode);
+      return true;
+    }
+    return false;
+  }(); // call once
+  return loaded;
 }
 
 }  // namespace fingerprint

@@ -22,7 +22,7 @@ class SettingsService : public internal::Context::Service {
   CryptFunc EncodeFunc() const;
   CryptFunc DecodeFunc() const;
 
-  const Settings& GetSettings();
+  const Settings& GetSettings(bool* loaded = nullptr);
 
   std::string GetCipherData();
   std::string GetPlainData();
@@ -33,7 +33,6 @@ class SettingsService : public internal::Context::Service {
  private:
   PathService& path_service_;
   Settings settings_;
-  bool loaded_ = false;
   ProviderFunc provider_func_;
 };
 

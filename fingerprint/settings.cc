@@ -110,6 +110,9 @@ Settings LoadSettingsFromFile(
     throw std::system_error{ec, "open \"" + path.string() + "\" failed"};
   }
   auto size = in.tellg();
+  if (size == 0) {
+    return Settings{};
+  }
   in.seekg(0);
 
   std::string ciphertext(size, '\0');

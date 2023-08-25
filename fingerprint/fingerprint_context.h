@@ -29,7 +29,7 @@ class FPcontext : public internal::Context {
   // called by browser: send ciphertext to render.
   std::string GetSettingsCipherData();
 
-  const Settings& GetSettings();
+  const Settings& GetSettings(bool* loaded = nullptr);
 };
 
 FPcontext* FPcontextPtr();

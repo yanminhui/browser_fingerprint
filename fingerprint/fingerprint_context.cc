@@ -40,8 +40,8 @@ std::string FPcontext::GetSettingsCipherData() {
   return internal::UseService<SettingsService>(*this).GetCipherData();
 }
 
-const Settings& FPcontext::GetSettings() {
-  return internal::UseService<SettingsService>(*this).GetSettings();
+const Settings& FPcontext::GetSettings(bool* loaded) {
+  return internal::UseService<SettingsService>(*this).GetSettings(loaded);
 }
 
 FPcontext* FPcontextPtr() { return FPcontext::GetInstance(); }
