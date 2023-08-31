@@ -15,6 +15,7 @@ class Settings {
   friend std::string SaveSettingsToText(const Settings& settings);
 
  public:
+  void Put(const std::string& key, const char* value);
   void Put(const std::string& key, const std::string& value);
   void Put(const std::string& key, std::size_t value);
   void Put(const std::string& key, double value);

@@ -15,6 +15,10 @@ constexpr std::string_view kLineSeparator = "\n";
 
 namespace fingerprint {
 
+void Settings::Put(const std::string& key, const char* value) {
+  PutInternal(key, value);
+}
+
 void Settings::Put(const std::string& key, const std::string& value) {
   PutInternal(key, value);
 }

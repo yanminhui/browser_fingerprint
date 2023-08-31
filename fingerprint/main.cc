@@ -15,6 +15,11 @@ using namespace fingerprint;
 Settings MakeSettings() {
   Settings st;
 
+  // Proxy
+  st.Put(gkProxyServer, std::string("http://127.0.0.1:8081"));
+  st.Put(gkProxyUser, "bryan");
+  st.Put(gkProxyPass, "abc123");
+
   // WebGL.vendor & renderer
   GLrendererPool pool;
   auto vendor = pool.NewVendor();

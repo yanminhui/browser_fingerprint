@@ -2,10 +2,15 @@
 
 namespace fingerprint {
 
+// Proxy
+constexpr const char gkProxyServer[] = "proxy.server";  // string
+constexpr const char gkProxyRealm[] = "proxy.realm";    // string
+constexpr const char gkProxyUser[] = "proxy.user";      // string
+constexpr const char gkProxyPass[] = "proxy.pass";      // string
+
 // WebGL
-constexpr auto gkWebGLVendor = "webgl.vendor";      // string
-constexpr auto gkWebGLRenderer = "webgl.renderer";  // string
-constexpr auto gkWebGLImageNoises =
-    "webgl.image_noises";  // float[gkGLnoiseFloatArraySize]
+constexpr const char gkWebGLVendor[] = "webgl.vendor";             // string
+constexpr const char gkWebGLRenderer[] = "webgl.renderer";         // string
+constexpr const char gkWebGLImageNoises[] = "webgl.image_noises";  // float[N]
 
 }  // namespace fingerprint
