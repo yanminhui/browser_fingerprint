@@ -83,7 +83,14 @@ std::string TwofishDecrypt(std::string_view ciphertext, std::string_view key) {
     }
     i += len;
   }
-  return plaintext;
+  std::string::size_type n = 0;
+  for (auto it = plaintext.crbegin(); it != plaintext.crend(); ++it) {
+    if (*it != '\0') {
+      break;
+    }
+    ++n;
+  }
+  return plaintext.substr(0, plaintext.size() - n);
 }
 
 }  // namespace fingerprint
