@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0.0)
 project(browser_fingerprint VERSION 0.1.0 LANGUAGES C CXX)
 
 set(sources 
+  "fingerprint/crypt/base64.cc"
+  "fingerprint/crypt/base64.h"
   "fingerprint/crypt/bcrypt.cc"
   "fingerprint/crypt/bcrypt.h"
   "fingerprint/crypt/blowfish.cc"
@@ -13,6 +15,7 @@ set(sources
   "fingerprint/crypt/twofish.h"
   "fingerprint/fingerprint_context.cc"
   "fingerprint/fingerprint_context.h"
+  "fingerprint/fingerprint_switches.h"
   "fingerprint/internal/apply_float_noise.h"
   "fingerprint/internal/uniform_float_distribution.h"
   "fingerprint/internal/uniform_int_distribution.h"

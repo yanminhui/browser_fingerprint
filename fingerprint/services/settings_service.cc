@@ -1,5 +1,6 @@
 #include "fingerprint/services/settings_service.h"
 
+#include "fingerprint/crypt/base64.h"
 #include "fingerprint/services/use_service.h"
 #include "fingerprint/utility.h"
 
@@ -8,11 +9,11 @@ namespace {
 constexpr std::string_view kPass = "WhrnQK-xfPqGr-yDHHGY";
 
 std::string Encode(const std::string& plaintext) {
-  return fingerprint::TwofishEncrypt(plaintext, kPass);
+  return base64_encode(fingerprint::TwofishEncrypt(plaintext, kPass));
 }
 
 std::string Decode(const std::string& ciphertext) {
-  return fingerprint::TwofishDecrypt(ciphertext, kPass);
+  return fingerprint::TwofishDecrypt(base64_decode(ciphertext), kPass);
 }
 
 }  // namespace
