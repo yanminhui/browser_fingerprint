@@ -2,6 +2,9 @@
 
 namespace fingerprint {
 
+// Navigator
+constexpr const char gkNavigatorPlatform[] = "navigator.platform";  // string
+
 // Proxy
 constexpr const char gkProxyServer[] = "proxy.server";  // string
 constexpr const char gkProxyRealm[] = "proxy.realm";    // string

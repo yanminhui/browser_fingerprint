@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "fingerprint/fingerprint_context.h"
+#include "fingerprint/navigator.h"
 #include "fingerprint/services/path_service.h"
 #include "fingerprint/services/use_service.h"
 #include "fingerprint/settings.h"
@@ -15,10 +16,11 @@ using namespace fingerprint;
 Settings MakeSettings() {
   Settings st;
 
+  // Navigator
+  st.Put(gkNavigatorPlatform, NavigatorPlatform(PlatformId::kWin));
+
   // Proxy
-  st.Put(gkProxyServer, "http://localhost:8081");
-  st.Put(gkProxyUser, "bryan");
-  st.Put(gkProxyPass, "abc123");
+  st.Put(gkProxyServer, "socks5://bryan:abc123@localhost:7890");
 
   // WebGL.vendor & renderer
   GLrendererPool pool;

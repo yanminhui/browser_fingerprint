@@ -21,6 +21,7 @@ set(sources
   "fingerprint/internal/uniform_int_distribution.h"
   "fingerprint/internal/string_algorithm.cc"
   "fingerprint/internal/string_algorithm.h"
+  "fingerprint/navigator.h"
   "fingerprint/services/context.cc"
   "fingerprint/services/context.h"
   "fingerprint/services/path_service.cc"
