@@ -4,6 +4,7 @@ namespace fingerprint {
 
 // Navigator
 constexpr const char gkNavigatorPlatform[] = "navigator.platform";  // string
+constexpr const char gkNavigatorTimeZone[] = "navigator.timezone";  // string
 
 // Proxy
 constexpr const char gkProxyServer[] = "proxy.server";  // string

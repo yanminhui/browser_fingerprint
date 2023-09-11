@@ -18,6 +18,7 @@ Settings MakeSettings() {
 
   // Navigator
   st.Put(gkNavigatorPlatform, NavigatorPlatform(PlatformId::kWin));
+  st.Put(gkNavigatorTimeZone, "America/Los_Angeles");
 
   // Proxy
   st.Put(gkProxyServer, "socks5://bryan:abc123@localhost:7890");
