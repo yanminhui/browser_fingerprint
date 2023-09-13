@@ -10,6 +10,7 @@
 #include "fingerprint/utility.h"
 #include "fingerprint/webgl_noise.h"
 #include "fingerprint/webgl_renderer.h"
+#include "fingerprint/webrtc.h"
 
 using namespace fingerprint;
 
@@ -22,6 +23,9 @@ Settings MakeSettings() {
 
   // Proxy
   st.Put(gkProxyServer, "socks5://bryan:abc123@localhost:7890");
+
+  // WebRTC
+  st.Put(gkWebRTCIPHandlingPolicy, WebRTCIPHandlingPolicy::kDisableNonProxiedUdp);
 
   // WebGL.vendor & renderer
   GLrendererPool pool;
